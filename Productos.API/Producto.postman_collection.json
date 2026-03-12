@@ -1,0 +1,123 @@
+{
+  "info": {
+    "_postman_id": "8f58b4d9-3c9e-4d1b-9061-31eb7a3eb93d",
+    "name": "Producto",
+    "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "51910450",
+    "_collection_link": "https://go.postman.co/collection/51910450-8f58b4d9-3c9e-4d1b-9061-31eb7a3eb93d?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "ObtenerProductos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://localhost:7232/api/Producto",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7232",
+          "path": [
+            "api",
+            "Producto"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "AgregarProducto",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"nombre\": \"NombreRandom1\",\r\n  \"descripcion\": \"descripcion\",\r\n  \"precio\": 300,\r\n  \"stock\": 3000,\r\n  \"codigoBarras\": \"codigoBarras\",\r\n  \"idSubCategoria\": \"BFB7DD22-DC1B-4D52-9C79-E7F319F5891D\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://localhost:7232/api/Producto",
+          "protocol": "https",
+          "host": [
+            "localhost"
+          ],
+          "port": "7232",
+          "path": [
+            "api",
+            "Producto"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "ApiBanco",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJCQ0NSLVNEREUiLCJzdWIiOiJqbWFkcmlnYWw5MDQ1MEB1ZmlkZS5hYy5jciIsImF1ZCI6IlNEREUtU2l0aW9FeHRlcm5vIiwiZXhwIjoyNTM0MDIzMDA4MDAsIm5iZiI6MTc3MDg1OTI4MywiaWF0IjoxNzcwODU5MjgzLCJqdGkiOiI5YzcwZWNjOS1iMzM5LTQ3MmMtYTkxMi01NjU0MDBhMTU5YjEiLCJlbWFpbCI6ImptYWRyaWdhbDkwNDUwQHVmaWRlLmFjLmNyIn0._TzgwGkUJVYzE0dOLy2uM5eHY21rjfJfZYvihwHWnsE",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://apim.bccr.fi.cr/SDDE/api/Bccr.GE.SDDE.Publico.Indicadores.API/cuadro/491/series?fechaInicio=2026/02/12&fechaFin=2026/02/12&idioma=ES",
+          "protocol": "https",
+          "host": [
+            "apim",
+            "bccr",
+            "fi",
+            "cr"
+          ],
+          "path": [
+            "SDDE",
+            "api",
+            "Bccr.GE.SDDE.Publico.Indicadores.API",
+            "cuadro",
+            "491",
+            "series"
+          ],
+          "query": [
+            {
+              "key": "fechaInicio",
+              "value": "2026/02/12"
+            },
+            {
+              "key": "fechaFin",
+              "value": "2026/02/12"
+            },
+            {
+              "key": "idioma",
+              "value": "ES"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

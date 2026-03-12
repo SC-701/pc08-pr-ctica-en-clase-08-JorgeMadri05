@@ -1,0 +1,16 @@
+﻿using Abstracciones.Modelos.Servicios;
+using Abstracciones.Modelos.Servicios.TipoCambio;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Abstracciones.Interfaces.Reglas
+{
+    public interface IConfiguracion
+    {
+        string ObtenerURLBase(string seccion);
+        string ObtenerToken(string seccion, string llave);
+    }
+}
