@@ -184,15 +184,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\API\IProductoController.cs" />
+    <Compile Include="Interfaces\DA\ICategoriaDA.cs" />
     <Compile Include="Interfaces\DA\IProductoDA.cs" />
     <Compile Include="Interfaces\DA\IRepositarioDapper.cs" />
+    <Compile Include="Interfaces\DA\ISubCategoriaDA.cs" />
+    <Compile Include="Interfaces\Flujo\ISubCategoriaFlujo.cs" />
+    <Compile Include="Interfaces\Flujo\ICategoriaFlujo.cs" />
     <Compile Include="Interfaces\Flujo\IProductoFlujo.cs" />
     <Compile Include="Interfaces\Reglas\IConfiguracion.cs" />
     <Compile Include="Interfaces\Reglas\IProductoReglas.cs" />
     <Compile Include="Interfaces\Servicios\ITipoCambioServicio.cs" />
+    <Compile Include="Modelos\Categoria.cs" />
     <Compile Include="Modelos\Producto.cs" />
     <Compile Include="Modelos\Servicios\APIEndPoint.cs" />
     <Compile Include="Modelos\Servicios\TipoCambioBCC\TipoCambiBCC.cs" />
+    <Compile Include="Modelos\Subcategoria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

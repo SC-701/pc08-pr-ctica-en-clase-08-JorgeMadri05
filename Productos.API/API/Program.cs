@@ -19,7 +19,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient();
 
 builder.Services.AddScoped<IProductoFlujo, ProductoFlujo>();
+builder.Services.AddScoped<ICategoriaFlujo, CategoriaFlujo>();
+builder.Services.AddScoped<ISubCategoriaFlujo, SubCategoriaFlujo>();
 builder.Services.AddScoped<IProductoDA, ProductoDA>();
+builder.Services.AddScoped<ICategoriaDA, CategoriaDA>();
+builder.Services.AddScoped<ISubCategoriaDA, SubCategoriaDA>();
 builder.Services.AddScoped<IRepositarioDapper, RepositarioDapper>();
 builder.Services.AddScoped<IConfiguracion, Configuracion>();
 builder.Services.AddScoped<IProductoReglas, ProductoReglas>();
