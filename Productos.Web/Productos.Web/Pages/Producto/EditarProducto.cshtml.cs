@@ -1,5 +1,6 @@
 using Abstracciones.Interfaces.Reglas;
 using Abstracciones.Modelos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,6 +10,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Productos.Web.Pages.Producto
 {
+    [Authorize]
     public class EditarProductoModel : PageModel
     {
         private readonly IConfiguracion _configuracion;
@@ -32,12 +34,13 @@ namespace Productos.Web.Pages.Producto
         [BindProperty]
         public Guid subCategoriaSeleccionada { get; set; }
 
+        [Authorize]
         public async Task<ActionResult> OnGet(Guid? id)
         {
             if (id == null)
                 return NotFound();
             string endpoint = _configuracion.ObtenerMetodo("APIEndPoints", "ObtenerProducto");
-            var cliente = new HttpClient();
+            var cliente = ObtenerUsuarioConToken();
             var solicitud = new HttpRequestMessage(HttpMethod.Get, string.Format(endpoint, id));
             var respuesta = await cliente.SendAsync(solicitud);
             respuesta.EnsureSuccessStatusCode();
@@ -70,6 +73,7 @@ namespace Productos.Web.Pages.Producto
             return Page();
         }
 
+        [Authorize]
         public async Task<ActionResult> OnPost()
         {
             if (!ModelState.IsValid)
@@ -77,7 +81,7 @@ namespace Productos.Web.Pages.Producto
                 return Page();
             }
             string endpoint = _configuracion.ObtenerMetodo("APIEndPoints", "EditarProducto");
-            var cliente = new HttpClient();
+            var cliente = ObtenerUsuarioConToken();
             var respuesta = await cliente.PutAsJsonAsync<ProductoRequest>(string.Format(endpoint, producto.Id), new ProductoRequest
             {
                 Nombre = producto.Nombre,
@@ -94,7 +98,7 @@ namespace Productos.Web.Pages.Producto
         private async Task ObtenerCategorias()
         {
             string endpoint = _configuracion.ObtenerMetodo("APIEndPoints", "ObtenerCategorias");
-            var cliente = new HttpClient();
+            var cliente = ObtenerUsuarioConToken();
             var solicitud = new HttpRequestMessage(HttpMethod.Get, endpoint);
             var respuesta = await cliente.SendAsync(solicitud);
             respuesta.EnsureSuccessStatusCode();
@@ -115,7 +119,7 @@ namespace Productos.Web.Pages.Producto
         public async Task<List<SubCategoriaResponse>> ObtenerSubCategorias(Guid categoriaId)
         {
             string endpoint = _configuracion.ObtenerMetodo("APIEndPoints", "ObtenerSubCategoriaPorId");
-            var cliente = new HttpClient();
+            var cliente = ObtenerUsuarioConToken();
             var solicitud = new HttpRequestMessage(HttpMethod.Get, string.Format(endpoint, categoriaId));
             var respuesta = await cliente.SendAsync(solicitud);
             respuesta.EnsureSuccessStatusCode();
@@ -134,6 +138,18 @@ namespace Productos.Web.Pages.Producto
         {
             var subCategorias = await ObtenerSubCategorias(categoriaId);
             return new JsonResult(subCategorias);
+        }
+
+        private HttpClient ObtenerUsuarioConToken()
+        {
+            var tokenClaim = HttpContext.User.Claims
+                .FirstOrDefault(c => c.Type == "Token");
+            var cliente = new HttpClient();
+            if (tokenClaim != null)
+                cliente.DefaultRequestHeaders.Authorization =
+                    new System.Net.Http.Headers.AuthenticationHeaderValue(
+                        "Bearer", tokenClaim.Value);
+            return cliente;
         }
     }
 }

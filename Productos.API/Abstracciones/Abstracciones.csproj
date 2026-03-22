@@ -196,6 +196,7 @@
     <Compile Include="Interfaces\Servicios\ITipoCambioServicio.cs" />
     <Compile Include="Modelos\Categoria.cs" />
     <Compile Include="Modelos\Producto.cs" />
+    <Compile Include="Modelos\Seguridad\Token.cs" />
     <Compile Include="Modelos\Servicios\APIEndPoint.cs" />
     <Compile Include="Modelos\Servicios\TipoCambioBCC\TipoCambiBCC.cs" />
     <Compile Include="Modelos\Subcategoria.cs" />

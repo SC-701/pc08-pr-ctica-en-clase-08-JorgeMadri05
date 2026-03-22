@@ -7,7 +7,8 @@ CREATE PROCEDURE [dbo].[AgregarUsuario]
 	-- Add the parameters for the stored procedure here
 @NombreUsuario VARCHAR(MAX),
 @PasswordHash VARCHAR(MAX),
-@CorreoElectronico VARCHAR(MAX)
+@CorreoElectronico VARCHAR(MAX),
+@IdPerfil UniqueIdentifier
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -31,7 +32,7 @@ BEGIN
            ,[IdPerfil])
 		VALUES
            (@Id
-           ,1)
+           ,@IdPerfil)
 	SELECT @Id
 	COMMIT TRAN
 END

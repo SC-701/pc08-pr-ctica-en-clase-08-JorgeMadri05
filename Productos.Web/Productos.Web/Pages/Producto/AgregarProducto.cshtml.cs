@@ -1,5 +1,6 @@
 using Abstracciones.Interfaces.Reglas;
 using Abstracciones.Modelos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -8,6 +9,7 @@ using System.Text.Json;
 
 namespace Productos.Web.Pages.Producto
 {
+    [Authorize]
     public class AgregarProductoModel : PageModel
     {
         private readonly IConfiguracion _configuracion;
@@ -35,6 +37,7 @@ namespace Productos.Web.Pages.Producto
 
         }
 
+        [Authorize]
         public async Task<ActionResult> OnPost()
         {
             if (!ModelState.IsValid)
@@ -42,8 +45,8 @@ namespace Productos.Web.Pages.Producto
 
             producto.IdSubCategoria = subCategoriaSeleccionada;
 
-            string endpoint = _configuracion.ObtenerMetodo("APIEndPoints", "AgregarProducto"); 
-            var cliente = new HttpClient();
+            string endpoint = _configuracion.ObtenerMetodo("APIEndPoints", "AgregarProducto");
+            var cliente = ObtenerUsuarioConToken();
             var solicitud = new HttpRequestMessage(HttpMethod.Post, endpoint);
             var respuesta = await cliente.PostAsJsonAsync(endpoint, producto);
             respuesta.EnsureSuccessStatusCode();
@@ -53,7 +56,7 @@ namespace Productos.Web.Pages.Producto
         private async Task ObtenerCategorias()
         {
             string endpoint = _configuracion.ObtenerMetodo("APIEndPoints", "ObtenerCategorias");
-            var cliente = new HttpClient();
+            var cliente = ObtenerUsuarioConToken();
             var solicitud = new HttpRequestMessage(HttpMethod.Get, endpoint);
             var respuesta = await cliente.SendAsync(solicitud);
             respuesta.EnsureSuccessStatusCode();
@@ -77,7 +80,7 @@ namespace Productos.Web.Pages.Producto
         public async Task<List<SubCategoriaResponse>> ObtenerSubCategorias(Guid categoriaId) 
         {
             string endpoint = _configuracion.ObtenerMetodo("APIEndPoints", "ObtenerSubCategoriaPorId");
-            var cliente = new HttpClient();
+            var cliente = ObtenerUsuarioConToken();
             var solicitud = new HttpRequestMessage(HttpMethod.Get, string.Format(endpoint, categoriaId));
             var respuesta = await cliente.SendAsync(solicitud);
             var contenido = await respuesta.Content.ReadAsStringAsync();
@@ -99,6 +102,18 @@ namespace Productos.Web.Pages.Producto
             var subCategoria = await ObtenerSubCategorias(categoriaId);
             return new JsonResult(subCategoria);
 
+        }
+
+        private HttpClient ObtenerUsuarioConToken()
+        {
+            var tokenClaim = HttpContext.User.Claims
+                .FirstOrDefault(c => c.Type == "Token");
+            var cliente = new HttpClient();
+            if (tokenClaim != null)
+                cliente.DefaultRequestHeaders.Authorization =
+                    new System.Net.Http.Headers.AuthenticationHeaderValue(
+                        "Bearer", tokenClaim.Value);
+            return cliente;
         }
     }
 }

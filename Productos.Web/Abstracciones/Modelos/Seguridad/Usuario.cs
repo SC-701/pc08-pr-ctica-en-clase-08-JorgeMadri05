@@ -5,21 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Abstracciones.Modelos
+namespace Abstracciones.Modelos.Seguridad
 {
-    public class LoginBase
+    public class UsuarioBase
     {
         [Required]
         public string NombreUsuario { get; set; }
-        [Required]
-        public string PasswordHash { get; set; }
+        public string? PasswordHash { get; set; }
         [Required]
         [EmailAddress]
         public string CorreoElectronico { get; set; }
     }
-    public class Login : LoginBase
+
+    public class Usuario : UsuarioBase
     {
         [Required]
-        public Guid? Id { get; set; }
+        public string Password {  get; set; }
+        public string ConfirmarPassword { get; set; }
     }
+
 }

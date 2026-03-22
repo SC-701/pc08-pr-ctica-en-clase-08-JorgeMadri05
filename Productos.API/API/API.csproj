@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -7,8 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autorizacion.Abstracciones.JorgeMadri05_PC08" Version="1.0.0" />
+    <PackageReference Include="Autorizacion.DA.JorgeMadri05_PC08" Version="1.0.0" />
+    <PackageReference Include="Autorizacion.Flujo.JorgeMadri05_PC08" Version="1.0.0" />
+    <PackageReference Include="Autorizacion.Middleware.JorgeMadri05_PC08" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.3.9" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+	<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.7" />
   </ItemGroup>
 
   <ItemGroup>

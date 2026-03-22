@@ -1,12 +1,14 @@
 ﻿using Abstracciones.Interfaces.API;
 using Abstracciones.Interfaces.Flujo;
 using Abstracciones.Modelos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProductoController : ControllerBase, IProductoController
     {
         private IProductoFlujo productoFlujo;
@@ -19,6 +21,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Agregar(ProductoRequest producto)
         {
             var resultado = await productoFlujo.Agregar(producto);
@@ -26,6 +29,7 @@ namespace API.Controllers
         }
 
         [HttpPut("{Id}")]
+        [Authorize]
         public async Task<IActionResult> Editar(Guid Id, ProductoRequest producto)
         {
             var resultado = await productoFlujo.Editar(Id, producto);
@@ -33,6 +37,7 @@ namespace API.Controllers
         }
 
         [HttpDelete("{Id}")]
+        [Authorize]
         public async Task<IActionResult> Eliminar(Guid Id)
         {
             var resultado = await productoFlujo.Eliminar(Id);
@@ -40,6 +45,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Obtener()
         {
             var resultado = await productoFlujo.Obtener();
@@ -52,6 +58,7 @@ namespace API.Controllers
         }
 
         [HttpGet("{Id}")]
+        [Authorize]
         public async Task<IActionResult> Obtener(Guid Id)
         {
             var resultado = await productoFlujo.Obtener(Id);

@@ -1,5 +1,6 @@
 using Abstracciones.Interfaces.Reglas;
 using Abstracciones.Modelos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Text.Json;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Productos.Web.Pages.Producto
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly IConfiguracion _configuracion;
@@ -14,11 +16,12 @@ namespace Productos.Web.Pages.Producto
         public IndexModel(IConfiguracion configuracion)
         {
             _configuracion = configuracion;
-        }   
+        }
+        [Authorize]
         public async Task OnGet()
         {
             string endpoint = _configuracion.ObtenerMetodo("APIEndPoints", "ObtenerProductos");
-            var cliente = new HttpClient();
+            var cliente = ObtenerUsuarioConToken();
             var solicitud = new HttpRequestMessage(HttpMethod.Get, endpoint);
             var respuesta =  await cliente.SendAsync(solicitud);
             respuesta.EnsureSuccessStatusCode();
@@ -27,6 +30,18 @@ namespace Productos.Web.Pages.Producto
             { PropertyNameCaseInsensitive = true };
             productos = JsonSerializer.Deserialize<List<ProductoResponse>>
                 (resultado, opciones);
+        }
+
+        private HttpClient ObtenerUsuarioConToken()
+        {
+            var tokenClaim = HttpContext.User.Claims
+                .FirstOrDefault(c => c.Type == "Token");
+            var cliente = new HttpClient();
+            if (tokenClaim != null)
+                cliente.DefaultRequestHeaders.Authorization =
+                    new System.Net.Http.Headers.AuthenticationHeaderValue(
+                        "Bearer", tokenClaim.Value);
+            return cliente;
         }
     }
 }
